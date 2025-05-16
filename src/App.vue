@@ -34,10 +34,14 @@ nav{
     a{
       color: rgb(28, 219, 92) !important;
       text-decoration: none;
+      padding: 4px 8px;
     }
     &:hover{
       opacity: .7;
     }
   }
+}
+.router-link-active{
+  border: 1px solid rgb(28, 219, 92);
 }
 </style>

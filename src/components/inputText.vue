@@ -7,6 +7,7 @@ const inputText = ref<string>('')
 const questionText = ref<string>('')
 const questionHiragana = ref<string>('')
 const questionNow = ref<number>(0)
+let inshow = true
 
 function shuffleArray<T>(array: T[]) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -22,6 +23,8 @@ const question = () => {
   }
   else{
     questionText.value = '終了'
+    inshow = false
+
   }
 }
 
@@ -42,7 +45,6 @@ const onInput = (event: Event) => {
 }
 
 
-
 shuffleArray(store.textList)
 question()
 
@@ -52,7 +54,7 @@ question()
 <template>
   <p>お題の読み方をひらがなで入力</p>
   <p class="questionText">{{ questionText }}</p>
-  <input type="text" v-model="inputText" @compositionend="onInput" >
+  <input v-if="inshow" type="text" v-model="inputText" @compositionend="onInput" >
 </template>
 
 <style scoped>
