@@ -8,6 +8,7 @@ const questionText = ref<string>('')
 const questionHiragana = ref<string>('')
 const questionNow = ref<number>(0)
 let inshow = true
+const max:number = store.textList.length
 
 function shuffleArray<T>(array: T[]) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -20,6 +21,7 @@ const question = () => {
   if(store.textList.length > questionNow.value){
     questionText.value = store.textList[questionNow.value].text
     questionHiragana.value = store.textList[questionNow.value].hiragana
+
   }
   else{
     questionText.value = '終了'
@@ -29,7 +31,7 @@ const question = () => {
 }
 
 // 合ってるか比較
-const comparison = () => {
+const comparison = () => {  
   return questionHiragana.value == inputText.value ? true : false
 }
 
@@ -55,6 +57,7 @@ question()
   <p>お題の読み方をひらがなで入力</p>
   <p class="questionText">{{ questionText }}</p>
   <input v-if="inshow" type="text" v-model="inputText" @compositionend="onInput" >
+  <p>{{ questionNow }} / {{ max }}</p>
 </template>
 
 <style scoped>
