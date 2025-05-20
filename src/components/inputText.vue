@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useTextListStore } from '@/stores/textList'
+import { useQuestionListStore } from '@/stores/questionList'
 import { ref, watch } from 'vue';
 
-const store = useTextListStore()
+const store = useQuestionListStore()
 const inputText = ref<string>('')
 const questionText = ref<string>('')
 const questionHiragana = ref<string>('')
 const questionNow = ref<number>(0)
 let inshow = true
-const max:number = store.textList.length
+const max:number = store.questionList.length
 
 function shuffleArray<T>(array: T[]) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -18,9 +18,9 @@ function shuffleArray<T>(array: T[]) {
 }
 // 問題代入
 const question = () => {
-  if(store.textList.length > questionNow.value){
-    questionText.value = store.textList[questionNow.value].text
-    questionHiragana.value = store.textList[questionNow.value].hiragana
+  if(store.questionList.length > questionNow.value){
+    questionText.value = store.questionList[questionNow.value].text
+    questionHiragana.value = store.questionList[questionNow.value].hiragana
 
   }
   else{
@@ -47,7 +47,7 @@ const onInput = (event: Event) => {
 }
 
 
-shuffleArray(store.textList)
+shuffleArray(store.questionList)
 question()
 
 
