@@ -11,6 +11,10 @@ onMounted(() => {
   store.init()
 })
 
+const handleAdd = () => {
+  store.add({ text: 'こんにちは', hiragana: 'こんにちは' })
+}
+
 const addQuestion = () => {
   if (!addText.value || !addHiragana.value) return
   store.add({ text: addText.value, hiragana: addHiragana.value })
