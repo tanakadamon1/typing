@@ -1,6 +1,7 @@
+// src/stores/questionList.ts
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { supabase } from '@/lib/supabase'
 
 export type Question = {
   id?: number
@@ -12,30 +13,21 @@ export const useQuestionListStore = defineStore('questionList', () => {
   const questionList = ref<Question[]>([])
 
   const init = async () => {
-    try {
-      const res = await axios.get('http://localhost:3001/questions')
-      questionList.value = res.data
-    } catch (error) {
-      console.error('初期化エラー', error)
-    }
+    const { data, error } = await supabase
+      .from('questions')
+      .select('*')
+      .order('id', { ascending: true })
+    if (!error && data) questionList.value = data
   }
 
   const add = async (item: Question) => {
-    try {
-      await axios.post('http://localhost:3001/questions', item)
-      await init()
-    } catch (error) {
-      console.error('追加エラー', error)
-    }
+    const { error } = await supabase.from('questions').insert([item])
+    if (!error) await init()
   }
 
   const remove = async (id: number) => {
-    try {
-      await axios.delete(`http://localhost:3001/questions/${id}`)
-      await init()
-    } catch (error) {
-      console.error('削除エラー', error)
-    }
+    const { error } = await supabase.from('questions').delete().eq('id', id)
+    if (!error) await init()
   }
 
   return { questionList, init, add, remove }
