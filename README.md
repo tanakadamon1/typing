@@ -3,4 +3,4 @@
 
 Vue + typescript + PostgreSQL
 
-https://typing-seven-kappa.vercel.app
+https://typing-seven-kappa.vercel.app/add
