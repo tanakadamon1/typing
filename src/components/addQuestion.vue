@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useQuestionListStore } from '@/stores/questionList'
 
 const store = useQuestionListStore()
@@ -23,12 +23,17 @@ const deleteQuestion = (id?: number) => {
   if (id === undefined) return
   store.remove(id)
 }
+const isHiragana = ref(true)
+watch(addHiragana, (newVal) => {
+  isHiragana.value = /^[\u3040-\u309Fー\s]*$/.test(newVal)
+})
 </script>
 
 <template>
   <div class="inputContainer">
     <p>問題<br /><input type="text" v-model="addText" /></p><br />
     <p>読み方（ひらがな）<br /><input type="text" v-model="addHiragana" /></p>
+    <p v-if="!isHiragana && addHiragana" class="err">※ひらがな以外が含まれています</p>
     <button @click="addQuestion">追加する</button>
   </div>
 
@@ -57,5 +62,9 @@ li {
     font-weight: normal;
     color: rgb(0, 183, 255);
   }
+}
+.err{
+  font-size: .8em;
+  color: rgb(233, 106, 106);
 }
 </style>
